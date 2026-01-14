@@ -104,8 +104,9 @@ if __name__ == "__main__":
         env_manager.IGE_env.write_to_sim()
 
         # Update graphics and render viewer WITHOUT stepping physics
-        # This ensures we capture the exact recorded state, not post-integration state
-        env_manager.IGE_env.step_graphics()
+        # Call gym.step_graphics directly to bypass graphics_are_stepped flag
+        # (which is only set False in physics_step, which we skip during replay)
+        gym.step_graphics(sim)
         env_manager.IGE_env.render_viewer()
 
         # Save viewer frame to file
