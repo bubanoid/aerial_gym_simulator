@@ -103,12 +103,10 @@ if __name__ == "__main__":
         # Write state to simulation
         env_manager.IGE_env.write_to_sim()
 
-        # Step physics to update visuals (with zero actions since we're setting state directly)
-        actions = torch.zeros((num_envs, 4)).to("cuda:0")
-        env_manager.step(actions=actions)
-
-        # Explicitly render viewer every frame (not just every render_viewer_every_n_steps)
-        env_manager.render(render_components="viewer")
+        # Update graphics and render viewer WITHOUT stepping physics
+        # This ensures we capture the exact recorded state, not post-integration state
+        env_manager.IGE_env.step_graphics()
+        env_manager.IGE_env.render_viewer()
 
         # Save viewer frame to file
         if args.save_frames:
