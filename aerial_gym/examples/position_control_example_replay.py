@@ -107,8 +107,8 @@ if __name__ == "__main__":
         actions = torch.zeros((num_envs, 4)).to("cuda:0")
         env_manager.step(actions=actions)
 
-        # Render viewer
-        env_manager.render()
+        # Explicitly render viewer every frame (not just every render_viewer_every_n_steps)
+        env_manager.render(render_components="viewer")
 
         # Save viewer frame to file
         if args.save_frames:
@@ -129,4 +129,4 @@ if __name__ == "__main__":
 
     # Keep viewer open
     while True:
-        env_manager.render()
+        env_manager.render(render_components="viewer")
